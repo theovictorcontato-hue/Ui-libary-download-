@@ -13,7 +13,6 @@
       --muted: #8b8b9e;
       --accent: #ff2840;
       --green: #3dff9a;
-      --blue: #6c8cff;
       --code-bg: #0a0a10;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -66,13 +65,10 @@
       padding-top: 8px;
       border-top: 1px solid var(--border);
     }
-    h3 { font-size: 1.05rem; margin: 22px 0 10px; color: #ddd; }
     p, li { color: #c8c8d4; font-size: 0.95rem; }
     ul { padding-left: 1.2rem; margin: 8px 0 14px; }
     li { margin: 4px 0; }
     .lead { color: var(--muted); margin-bottom: 24px; font-size: 1.05rem; }
-
-    /* code block + copy */
     .code-wrap {
       position: relative;
       margin: 12px 0 18px;
@@ -120,17 +116,6 @@
       font-size: 0.85em;
       color: #fff;
     }
-    .badge {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
-      background: #2a1520;
-      color: var(--accent);
-      vertical-align: middle;
-      margin-left: 6px;
-    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -170,7 +155,7 @@
 <body>
   <nav>
     <div class="logo">Power<span>UI</span>Lib</div>
-    <div class="ver">v1.0 · Merge style</div>
+    <div class="ver">v1.0 · docs</div>
     <a href="#boot">Boot</a>
     <a href="#window">CreateWindow</a>
     <a href="#toggle">Toggle</a>
@@ -178,22 +163,20 @@
     <a href="#slider">Slider</a>
     <a href="#label">Label</a>
     <a href="#example">Example</a>
-    <a href="#loader">Hub Loader</a>
   </nav>
 
   <main>
     <h1>PowerUILib</h1>
-    <p class="lead">UI library estilo Merge a Mini Army — lista preta, check vermelho. Clique em <strong>Copy</strong> nos blocos.</p>
+    <p class="lead">UI library — lista preta, check vermelho. Clique em <strong>Copy</strong> nos blocos.</p>
 
     <div class="preview">
       <div class="t">POWER HUB &nbsp;▼</div>
-      <div class="row"><span>Auto Merge</span><div class="box">✓</div></div>
-      <div class="row"><span>Auto Deploy</span><div class="box"></div></div>
-      <div class="row"><span>Speed</span><div class="box"></div></div>
+      <div class="row"><span>Speed</span><div class="box">✓</div></div>
+      <div class="row"><span>Fly</span><div class="box"></div></div>
+      <div class="row"><span>ESP</span><div class="box"></div></div>
     </div>
 
     <h2 id="boot">Boot</h2>
-    <p>Carrega a lib (cole no executor):</p>
     <div class="code-wrap">
       <div class="code-bar">
         <span>lua · loadstring</span>
@@ -228,7 +211,7 @@
         <button type="button" onclick="copyCode(this)">Copy</button>
       </div>
       <pre><code>Window:Toggle({
-    Title = "Auto Merge",
+    Title = "Speed",
     Default = false,
     Callback = function(Value)
         print(Value)
@@ -243,11 +226,9 @@
         <button type="button" onclick="copyCode(this)">Copy</button>
       </div>
       <pre><code>Window:Button({
-    Title = "INICIAR HUB NOVO",
+    Title = "Click Me",
     Callback = function()
-        loadstring(game:HttpGet(
-            "https://raw.githubusercontent.com/gumanba/Scripts/main/MergeaMiniArmy"
-        ))()
+        print("clicked")
     end,
 })</code></pre>
     </div>
@@ -292,64 +273,46 @@ local Window = PowerUILib:CreateWindow({
 })
 
 Window:Toggle({
-    Title = "Auto Merge",
-    Default = true,
+    Title = "Speed",
+    Default = false,
     Callback = function(Value)
-        getgenv().AutoMerge = Value
-    end,
-})
-
-Window:Toggle({
-    Title = "Auto Deploy",
-    Callback = function(Value)
-        getgenv().AutoDeploy = Value
-    end,
-})
-
-Window:Toggle({
-    Title = "Buy SpawnLevel",
-    Callback = function(Value) end,
-})
-
-Window:Toggle({
-    Title = "Buy MaxOutside",
-    Callback = function(Value) end,
-})
-
-Window:Toggle({
-    Title = "Buy MaxSpawned",
-    Callback = function(Value) end,
-})
-
-Window:Button({
-    Title = "▶ INICIAR HUB NOVO",
-    Callback = function()
-        loadstring(game:HttpGet(
-            "https://raw.githubusercontent.com/gumanba/Scripts/main/MergeaMiniArmy"
-        ))()
-    end,
-})
-
-Window:Button({
-    Title = "YouTube: Tora IsMe",
-    Callback = function()
-        if setclipboard then
-            setclipboard("https://youtube.com")
+        local hum = game.Players.LocalPlayer.Character
+            and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        if hum and Value then
+            hum.WalkSpeed = 30
+        elseif hum then
+            hum.WalkSpeed = 16
         end
     end,
-})</code></pre>
-    </div>
+})
 
-    <h2 id="loader">Hub Loader only</h2>
-    <p>Só o botão que puxa o script atualizado do gumanba:</p>
-    <div class="code-wrap">
-      <div class="code-bar">
-        <span>lua</span>
-        <button type="button" onclick="copyCode(this)">Copy</button>
-      </div>
-      <pre><code>loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/gumanba/Scripts/main/MergeaMiniArmy"
-))()</code></pre>
+Window:Toggle({
+    Title = "Fly",
+    Callback = function(Value)
+        print("Fly:", Value)
+    end,
+})
+
+Window:Slider({
+    Title = "WalkSpeed",
+    Min = 16,
+    Max = 100,
+    Default = 16,
+    Callback = function(Value)
+        local hum = game.Players.LocalPlayer.Character
+            and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        if hum then hum.WalkSpeed = Value end
+    end,
+})
+
+Window:Button({
+    Title = "Print OK",
+    Callback = function()
+        print("PowerUILib ok")
+    end,
+})
+
+Window:Label({ Title = "PowerUILib · client-side" })</code></pre>
     </div>
 
     <h2>Notes</h2>
@@ -357,15 +320,14 @@ Window:Button({
       <li><strong>RightShift</strong> — mostra / esconde a janela</li>
       <li>Arraste pelo título</li>
       <li>Executor precisa de <code>HttpGet</code></li>
-      <li>Lib raw: <code>https://pastefy.app/7mEPB0wl/raw</code></li>
+      <li>Lib: <code>https://pastefy.app/7mEPB0wl/raw</code></li>
     </ul>
   </main>
 
   <script>
     function copyCode(btn) {
       const pre = btn.closest(".code-wrap").querySelector("pre code");
-      const text = pre.innerText;
-      navigator.clipboard.writeText(text).then(() => {
+      navigator.clipboard.writeText(pre.innerText).then(() => {
         btn.textContent = "Copied!";
         btn.classList.add("ok");
         setTimeout(() => {
